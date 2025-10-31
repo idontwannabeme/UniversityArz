@@ -862,7 +862,7 @@
             const logoutBtn = document.getElementById('logoutBtn');
 
             // Проверяем, авторизован ли пользователь
-            const currentUser = sessionStorage.getItem('currentUser');
+            const currentUser = localStorage.getItem('currentUser');
             if (currentUser) {
                 showMainApp(JSON.parse(currentUser));
             }
@@ -907,12 +907,12 @@
                         role: testUsers[email].role
                     };
 
-                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('currentUser', JSON.stringify(user));
                     showMainApp(user);
                 } 
                 // Проверяем зарегистрированных пользователей
                 else {
-                    const registeredUsers = JSON.parse(sessionStorage.getItem('registeredUsers') || '{}');
+                    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
                     if (registeredUsers[email] && registeredUsers[email].password === password) {
                         const user = {
                             email: email,
@@ -920,7 +920,7 @@
                             role: registeredUsers[email].role
                         };
 
-                        sessionStorage.setItem('currentUser', JSON.stringify(user));
+                        localStorage.setItem('currentUser', JSON.stringify(user));
                         showMainApp(user);
                     } else {
                         alert('Неверный email или пароль');
@@ -947,7 +947,7 @@
                 }
 
                 // Получаем существующих зарегистрированных пользователей
-                const registeredUsers = JSON.parse(sessionStorage.getItem('registeredUsers') || '{}');
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
 
                 // Проверяем, не занят ли email
                 if (registeredUsers[email]) {
@@ -963,7 +963,7 @@
                 };
 
                 // Сохраняем в sessionStorage
-                sessionStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
 
                 const user = {
                     email: email,
@@ -971,14 +971,14 @@
                     role: 'Студент'
                 };
 
-                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('currentUser', JSON.stringify(user));
                 showMainApp(user);
                 alert('Регистрация выполнена успешно!');
             });
 
             // Выход из системы
             logoutBtn.addEventListener('click', function() {
-                sessionStorage.removeItem('currentUser');
+                localStorage.removeItem('currentUser');
                 welcomeModal.style.display = 'flex';
                 mainApp.style.display = 'none';
             });
@@ -998,7 +998,7 @@
                     'admin@university.ru': { password: '123456', fullName: 'Администратор', role: 'Администратор' }
                 };
 
-                const registeredUsers = JSON.parse(sessionStorage.getItem('registeredUsers') || '{}');
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
 
                 console.log('Тестовые пользователи:', testUsers);
                 console.log('Зарегистрированные пользователи:', registeredUsers);
