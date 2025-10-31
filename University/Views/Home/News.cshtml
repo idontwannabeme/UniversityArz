@@ -1,0 +1,176 @@
+﻿@model List<NewsItem>
+@{
+    ViewData["Title"] = "Новости";
+}
+
+<div class="news-header">
+    <h2>📰 Новости университета</h2>
+    <p>Актуальные события и объявления</p>
+</div>
+
+<div class="news-container">
+    @foreach (var newsItem in Model)
+    {
+            <div class="news-card">
+                <div class="news-category @GetCategoryClass(newsItem.Category)">
+                @GetCategoryIcon(newsItem.Category) @newsItem.Category
+                </div>
+                <h3 class="news-title">@newsItem.Title</h3>
+                <p class="news-content">@newsItem.Content</p>
+                <div class="news-footer">
+                    <span class="news-date">📅 @newsItem.Date</span>
+                    <button class="read-more-btn">Подробнее</button>
+                </div>
+            </div>
+    }
+</div>
+
+@functions {
+    string GetCategoryClass(string category)
+    {
+        return category switch
+        {
+            "Мероприятие" => "category-event",
+            "Наука" => "category-science",
+            "Учебный процесс" => "category-study",
+            "Инфраструктура" => "category-infrastructure",
+            _ => "category-default"
+        };
+    }
+
+    string GetCategoryIcon(string category)
+    {
+        return category switch
+        {
+            "Мероприятие" => "🎉",
+            "Наука" => "🔬",
+            "Учебный процесс" => "📚",
+            "Инфраструктура" => "🏢",
+            _ => "📢"
+        };
+    }
+}
+
+<style>
+    .news-header {
+        margin-bottom: 30px;
+    }
+
+    .news-header h2 {
+        color: #2a4b8c;
+        margin-bottom: 10px;
+    }
+
+    .news-header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .news-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .news-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-left: 4px solid #2a4b8c;
+    }
+
+    .news-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .news-category {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: white;
+    }
+
+    .category-event {
+        background: #e91e63;
+    }
+
+    .category-science {
+        background: #9c27b0;
+    }
+
+    .category-study {
+        background: #2196f3;
+    }
+
+    .category-infrastructure {
+        background: #4caf50;
+    }
+
+    .category-default {
+        background: #607d8b;
+    }
+
+    .news-title {
+        color: #2a4b8c;
+        margin-bottom: 12px;
+        font-size: 1.3rem;
+        line-height: 1.4;
+    }
+
+    .news-content {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .news-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .news-date {
+        color: #888;
+        font-size: 0.9rem;
+    }
+
+    .read-more-btn {
+        background: #2a4b8c;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .read-more-btn:hover {
+        background: #1a2a6c;
+    }
+
+    @@media (max-width: 768px) {
+        .news-card {
+            padding: 20px;
+        }
+
+        .news-footer {
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .read-more-btn {
+            width: 100%;
+        }
+    }
+</style>

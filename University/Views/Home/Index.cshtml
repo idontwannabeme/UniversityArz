@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="welcome-section">
+    <h1>Добро пожаловать в университет!</h1>
+    <p>Информационная система для студентов и преподавателей</p>
+</div>
+
+<div class="main-content">
+    <div class="content">
+        <!-- Статистика -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>👨‍🎓 Студенты</h3>
+                <p>@ViewBag.Statistics.TotalStudents</p>
+            </div>
+            <div class="card">
+                <h3>👨‍🏫 Преподаватели</h3>
+                <p>@ViewBag.Statistics.TotalTeachers</p>
+            </div>
+            <div class="card">
+                <h3>🏛️ Факультеты</h3>
+                <p>@ViewBag.Statistics.TotalFaculties</p>
+            </div>
+            <div class="card">
+                <h3>📚 Курсы</h3>
+                <p>@ViewBag.Statistics.TotalCourses</p>
+            </div>
+        </div>
+
+        <!-- Быстрый доступ -->
+        <div class="quick-actions">
+            <a href="@Url.Action("Schedule", "Home")" class="action-card">
+                <span class="action-icon">📅</span>
+                <h3>Расписание</h3>
+                <p>Просмотр расписания занятий</p>
+            </a>
+            <a href="@Url.Action("Materials", "Home")" class="action-card">
+                <span class="action-icon">📚</span>
+                <h3>Материалы</h3>
+                <p>Учебные материалы и пособия</p>
+            </a>
+            <a href="@Url.Action("Grades", "Home")" class="action-card">
+                <span class="action-icon">📊</span>
+                <h3>Оценки</h3>
+                <p>Успеваемость и результаты</p>
+            </a>
+            <a href="@Url.Action("News", "Home")" class="action-card">
+                <span class="action-icon">📰</span>
+                <h3>Новости</h3>
+                <p>Последние события университета</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Боковая панель с новостями -->
+    <div class="sidebar-news">
+        <h3>📰 Последние новости</h3>
+        <div class="news-list">
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>День открытых дверей</h4>
+                <p class="news-content-sidebar">Приглашаем всех желающих на день открытых дверей, который состоится 15 февраля.</p>
+                <div class="news-meta-sidebar">
+                    <span>10.01.2025</span>
+                    <span class="news-category-sidebar">Мероприятие</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Научная конференция по ИТ</h4>
+                <p class="news-content-sidebar">Университет проводит международную научную конференцию по информационным технологиям.</p>
+                <div class="news-meta-sidebar">
+                    <span>12.01.2025</span>
+                    <span class="news-category-sidebar">Наука</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Обновление расписания</h4>
+                <p class="news-content-sidebar">Внесены изменения в расписание занятий на второй семестр. Проверьте актуальное расписание.</p>
+                <div class="news-meta-sidebar">
+                    <span>15.01.2025</span>
+                    <span class="news-category-sidebar">Учебный процесс</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Студенческая олимпиада</h4>
+                <p class="news-content-sidebar">Принимаются заявки на участие в студенческой олимпиаде по программированию. Регистрация до 25 января.</p>
+                <div class="news-meta-sidebar">
+                    <span>18.01.2025</span>
+                    <span class="news-category-sidebar">Мероприятие</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Зимние каникулы</h4>
+                <p class="news-content-sidebar">Напоминаем о зимних каникулах с 25 января по 2 февраля. Хорошего отдыха!</p>
+                <div class="news-meta-sidebar">
+                    <span>20.01.2025</span>
+                    <span class="news-category-sidebar">Учебный процесс</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Новые лаборатории</h4>
+                <p class="news-content-sidebar">Открыты новые компьютерные лаборатории для практических занятий. Современное оборудование!</p>
+                <div class="news-meta-sidebar">
+                    <span>22.01.2025</span>
+                    <span class="news-category-sidebar">Инфраструктура</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Стипендиальная программа</h4>
+                <p class="news-content-sidebar">Объявлен конкурс на получение повышенной академической стипендии. Подача документов до 30 января.</p>
+                <div class="news-meta-sidebar">
+                    <span>24.01.2025</span>
+                    <span class="news-category-sidebar">Объявление</span>
+                </div>
+            </div>
+
+            <div class="news-item-sidebar" onclick="location.href='@Url.Action("News", "Home")'">
+                <h4>Мастер-классы от IT-компаний</h4>
+                <p class="news-content-sidebar">Приглашаем на серию мастер-классов от ведущих IT-компаний города. Расписание на сайте.</p>
+                <div class="news-meta-sidebar">
+                    <span>26.01.2025</span>
+                    <span class="news-category-sidebar">Карьера</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Добавляем интерактивность для карточек новостей
+    document.addEventListener('DOMContentLoaded', function() {
+        const newsItems = document.querySelectorAll('.news-item-sidebar');
+
+        newsItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Можно добавить дополнительную логику при клике
+                this.style.background = '#d4edda';
+                setTimeout(() => {
+                    this.style.background = '';
+                }, 300);
+            });
+        });
+    });
+</script>

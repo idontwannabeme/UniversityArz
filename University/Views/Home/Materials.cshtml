@@ -1,0 +1,189 @@
+﻿@model List<LearningMaterial>
+@{
+    ViewData["Title"] = "Учебные материалы";
+}
+
+<div class="materials-header">
+    <h2>📚 Учебные материалы</h2>
+    <p>Доступные учебные материалы и пособия</p>
+</div>
+
+<div class="materials-container">
+    @foreach (var material in Model)
+    {
+            <div class="material-card">
+                <div class="material-icon">
+                @if (material.Type == "Лекция")
+                {
+                            <span>📖</span>
+                }
+                else if (material.Type == "Презентация")
+                {
+                            <span>📊</span>
+                }
+                else if (material.Type == "Лабораторная")
+                {
+                            <span>🔬</span>
+                }
+                else if (material.Type == "Учебник")
+                {
+                            <span>📘</span>
+                }
+                else
+                {
+                            <span>📄</span>
+                }
+                </div>
+                <div class="material-content">
+                    <h3 class="material-title">@material.Title</h3>
+                    <div class="material-info">
+                        <span class="material-subject">@material.Subject</span>
+                        <span class="material-type">@material.Type</span>
+                    </div>
+                    <div class="material-meta">
+                        <span class="material-size">📦 @material.Size</span>
+                        <span class="material-date">📅 @material.UploadDate</span>
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="download-btn">Скачать</button>
+                </div>
+            </div>
+    }
+</div>
+
+<style>
+    .materials-header {
+        margin-bottom: 30px;
+    }
+
+    .materials-header h2 {
+        color: #2a4b8c;
+        margin-bottom: 10px;
+    }
+
+    .materials-header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .materials-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .material-card {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .material-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .material-icon {
+        font-size: 2rem;
+        margin-right: 20px;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .material-content {
+        flex: 1;
+    }
+
+    .material-title {
+        color: #2a4b8c;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+
+    .material-info {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 8px;
+    }
+
+    .material-subject {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .material-type {
+        background: #f3e5f5;
+        color: #7b1fa2;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .material-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .material-actions {
+        margin-left: 20px;
+    }
+
+    .download-btn {
+        background: #2a4b8c;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .download-btn:hover {
+        background: #1a2a6c;
+    }
+
+    @@media (max-width: 768px) {
+        .material-card {
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .material-icon {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        .material-info {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .material-meta {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .material-actions {
+            margin-left: 0;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .download-btn {
+            width: 100%;
+        }
+    }
+</style>

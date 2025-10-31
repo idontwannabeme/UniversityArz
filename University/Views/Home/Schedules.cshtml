@@ -1,0 +1,184 @@
+﻿@model ScheduleViewModel
+@{
+    ViewData["Title"] = "Расписание занятий";
+}
+
+<div class="schedule-header">
+    <h2>📅 Расписание занятий</h2>
+    <div class="group-selector">
+        <form method="get" class="group-form">
+            <label for="group">Группа:</label>
+            <select id="group" name="group" onchange="this.form.submit()">
+                @foreach (var group in Model.Groups)
+                {
+                    if (group == Model.SelectedGroup)
+                    {
+                                <option value="@group" selected>@group</option>
+                    }
+                    else
+                    {
+                                <option value="@group">@group</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="schedule-container">
+    @{
+        var daysOfWeek = new[] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" };
+    }
+
+    @foreach (var day in daysOfWeek)
+    {
+        var daySchedules = Model.Schedules.Where(s => s.DayOfWeek == day).OrderBy(s => s.Time).ToList();
+
+            <div class="schedule-day">
+                <h3 class="day-header">@day</h3>
+
+            @if (daySchedules.Any())
+            {
+                        <div class="lessons-list">
+                    @foreach (var lesson in daySchedules)
+                    {
+                                    <div class="lesson-card">
+                                        <div class="lesson-time">@lesson.Time</div>
+                                        <div class="lesson-content">
+                                            <h4 class="lesson-subject">@lesson.Subject</h4>
+                                            <p class="lesson-teacher">👨‍🏫 @lesson.Teacher</p>
+                                            <p class="lesson-classroom">🏫 Аудитория: @lesson.Classroom</p>
+                                        </div>
+                                    </div>
+                    }
+                        </div>
+            }
+            else
+            {
+                        <div class="no-lessons">
+                            <p>Занятий нет</p>
+                        </div>
+            }
+            </div>
+    }
+</div>
+
+<style>
+    .schedule-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .group-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .group-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .group-form select {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .schedule-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .schedule-day {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .day-header {
+        color: #2a4b8c;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f5ff;
+    }
+
+    .lessons-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .lesson-card {
+        display: flex;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .lesson-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .lesson-time {
+        background: #2a4b8c;
+        color: white;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 120px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .lesson-content {
+        padding: 15px;
+        flex: 1;
+    }
+
+    .lesson-subject {
+        color: #2a4b8c;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+
+    .lesson-teacher, .lesson-classroom {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .no-lessons {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        font-style: italic;
+    }
+
+    @@media (max-width: 768px) {
+        .schedule-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .lesson-card {
+            flex-direction: column;
+        }
+
+        .lesson-time {
+            min-width: auto;
+            padding: 10px;
+        }
+    }
+</style>

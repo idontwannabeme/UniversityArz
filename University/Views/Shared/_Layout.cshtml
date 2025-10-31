@@ -1,0 +1,1012 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Информационная система вуза</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #2a4b8c);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+        }
+
+        .auth-buttons button {
+            background-color: #ff7e30;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .auth-buttons button:hover {
+            background-color: #e56a1f;
+        }
+
+        /* Навигация */
+        nav {
+            background-color: #2a4b8c;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Основной контент */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar h3 {
+            margin-bottom: 15px;
+            color: #2a4b8c;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #f0f5ff;
+        }
+
+        /* Контент */
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .content h2 {
+            color: #2a4b8c;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid #2a4b8c;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: #2a4b8c;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .news-section h3 {
+            color: #2a4b8c;
+            margin-bottom: 15px;
+        }
+
+        .news-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .news-date {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Формы */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #2a4b8c;
+        }
+
+        .btn {
+            background-color: #2a4b8c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1a2a6c;
+        }
+
+        /* Подвал */
+        footer {
+            background: linear-gradient(135deg, #1a2a6c, #2a4b8c);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+            align-items: start;
+        }
+
+        .footer-main {
+            padding-right: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2a4b8c;
+            font-size: 1.2rem;
+        }
+
+        .footer-logo-text h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .footer-logo-text p {
+            color: #ccc;
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+        }
+
+        .footer-description {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            width: 20px;
+            text-align: center;
+            color: #4fc3f7;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #4fc3f7;
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links li:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: #4fc3f7;
+            transform: translateX(5px);
+        }
+
+        .footer-links a::before {
+            content: '▸';
+            color: #4fc3f7;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            transform: translateX(3px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-link:hover {
+            background: #4fc3f7;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .copyright-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .copyright-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .copyright-links a:hover {
+            color: #4fc3f7;
+        }
+
+        /* Модальное окно авторизации при входе */
+        .welcome-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a2a6c, #2a4b8c);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .welcome-header {
+            margin-bottom: 30px;
+        }
+
+        .welcome-header h2 {
+            color: #2a4b8c;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .university-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2a4b8c, #1a2a6c);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            color: #2a4b8c;
+            border-bottom: 3px solid #2a4b8c;
+            font-weight: 600;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .test-users {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .test-users h4 {
+            color: #2a4b8c;
+            margin-bottom: 10px;
+        }
+
+        .test-user {
+            padding: 5px 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .test-user .role {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        /* Анимации */
+        @@keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Адаптивность */
+        @@media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-main {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px;
+            }
+
+            .welcome-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-main {
+                grid-column: 1;
+            }
+
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .copyright-links {
+                justify-content: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .footer-logo {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .social-links {
+                gap: 10px;
+            }
+
+            .social-link {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Модальное окно приветствия и авторизации -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-container">
+            <div class="university-logo">У</div>
+            <div class="welcome-header">
+                <h2>Добро пожаловать!</h2>
+                <p>Войдите в информационную систему вуза</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+
+            <!-- Форма входа -->
+            <form class="auth-form active" id="welcomeLoginForm">
+                <div class="form-group">
+                    <input type="email" id="welcomeLoginEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="welcomeLoginPassword" placeholder="Пароль" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Войти в систему</button>
+            </form>
+
+            <!-- Форма регистрации -->
+            <form class="auth-form" id="welcomeRegisterForm">
+                <div class="form-group">
+                    <input type="text" id="welcomeRegFullName" placeholder="ФИО" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="welcomeRegEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="welcomeRegStudentId" placeholder="Студенческий билет" required>
+                </div>
+                <div class="form-group">
+                    <select id="welcomeRegFaculty" required>
+                        <option value="">Выберите факультет</option>
+                        <option value="1">Информатики и вычислительной техники</option>
+                        <option value="2">Экономический</option>
+                        <option value="3">Юридический</option>
+                        <option value="4">Филологический</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="welcomeRegPassword" placeholder="Пароль" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="welcomeRegConfirmPassword" placeholder="Подтверждение пароля" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Зарегистрироваться</button>
+            </form>
+
+            <!-- Тестовые пользователи -->
+            <div class="test-users">
+                <h4>Тестовые аккаунты:</h4>
+                <div class="test-user">👨‍🎓 student@university.ru / 123456 <span class="role">Студент</span></div>
+                <div class="test-user">👨‍🏫 teacher@university.ru / 123456 <span class="role">Преподаватель</span></div>
+                <div class="test-user">⚡ admin@university.ru / 123456 <span class="role">Администратор</span></div>
+
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+                    <h5 style="color: #2a4b8c; margin-bottom: 10px;">Или зарегистрируйтесь:</h5>
+                    <div class="test-user">📝 Любой email + пароль от 6 символов</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной интерфейс (скрыт до авторизации) -->
+    <div id="mainApp" style="display: none;">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <div style="width: 50px; height: 50px; background-color: white; border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <span style="color: #2a4b8c; font-weight: bold;">Унив</span>
+                        </div>
+                        <h1>Информационная система вуза</h1>
+                    </div>
+                    <div class="auth-buttons">
+                        <span id="userWelcome" style="color: white; margin-right: 15px;"></span>
+                        <button id="logoutBtn" style="background-color: #dc3545;">Выйти</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">Главная</a></li>
+                    <li><a href="@Url.Action("Students", "Home")">👨‍🎓 Студенты</a></li>
+                    <li><a href="@Url.Action("Teachers", "Home")">👨‍🏫 Преподаватели</a></li>
+                    <li><a href="@Url.Action("Schedule", "Home")">📅 Расписание</a></li>
+                    <li><a href="@Url.Action("Materials", "Home")">📚 Учебные материалы</a></li>
+                    <li><a href="@Url.Action("Grades", "Home")">📊 Оценки</a></li>
+                    <li><a href="@Url.Action("News", "Home")">📰 Новости</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <!-- Основная информация -->
+                    <div class="footer-main">
+                        <div class="footer-logo">
+                            <div class="footer-logo-icon">У</div>
+                            <div class="footer-logo-text">
+                                <h3>Университет Арзамаса</h3>
+                                <p>Информационная система</p>
+                            </div>
+                        </div>
+                        <p class="footer-description">
+                            Ведущий образовательный центр региона, предоставляющий качественное образование 
+                            и современные технологии для студентов и преподавателей.
+                        </p>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i>📍</i>
+                                <span>г. Арзамас, ул. Университетская, д. 1</span>
+                            </div>
+                            <div class="contact-item">
+                                <i>📞</i>
+                                <span>+7 (999) 999-99-99</span>
+                            </div>
+                            <div class="contact-item">
+                                <i>✉️</i>
+                                <span>info@university.ru</span>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link" title="VK">📘</a>
+                            <a href="#" class="social-link" title="Telegram">📱</a>
+                            <a href="#" class="social-link" title="YouTube">📹</a>
+                            <a href="#" class="social-link" title="Email">📧</a>
+                        </div>
+                    </div>
+
+                    <!-- Факультеты -->
+                    <div class="footer-section">
+                        <h3>Факультеты</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Информатики и вычислительной техники</a></li>
+                            <li><a href="#">Экономический факультет</a></li>
+                            <li><a href="#">Юридический факультет</a></li>
+                            <li><a href="#">Филологический факультет</a></li>
+                            <li><a href="#">Естественных наук</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Образование -->
+                    <div class="footer-section">
+                        <h3>Образование</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Бакалавриат</a></li>
+                            <li><a href="#">Магистратура</a></li>
+                            <li><a href="#">Аспирантура</a></li>
+                            <li><a href="#">Дополнительное образование</a></li>
+                            <li><a href="#">Дистанционное обучение</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Ресурсы -->
+                    <div class="footer-section">
+                        <h3>Ресурсы</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Электронная библиотека</a></li>
+                            <li><a href="#">Научные публикации</a></li>
+                            <li><a href="#">Расписание занятий</a></li>
+                            <li><a href="#">Учебные материалы</a></li>
+                            <li><a href="#">Студенческий портал</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="copyright">
+                    <div class="copyright-text">
+                        &copy; 2025 Университет Арзамаса. Все права защищены.
+                    </div>
+                    <div class="copyright-links">
+                        <a href="#">Политика конфиденциальности</a>
+                        <a href="#">Пользовательское соглашение</a>
+                        <a href="#">Карта сайта</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeModal = document.getElementById('welcomeModal');
+            const mainApp = document.getElementById('mainApp');
+            const authTabs = document.querySelectorAll('.auth-tab');
+            const authForms = document.querySelectorAll('.auth-form');
+            const welcomeLoginForm = document.getElementById('welcomeLoginForm');
+            const welcomeRegisterForm = document.getElementById('welcomeRegisterForm');
+            const userWelcome = document.getElementById('userWelcome');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // Проверяем, авторизован ли пользователь
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (currentUser) {
+                showMainApp(JSON.parse(currentUser));
+            }
+
+            // Переключение между вкладками
+            authTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+
+                    // Активируем вкладку
+                    authTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Показываем соответствующую форму
+                    authForms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === `welcome${tabName.charAt(0).toUpperCase() + tabName.slice(1)}Form`) {
+                            form.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Обработка формы входа
+            welcomeLoginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('welcomeLoginEmail').value;
+                const password = document.getElementById('welcomeLoginPassword').value;
+
+                // Тестовые пользователи
+                const testUsers = {
+                    'student@university.ru': { password: '123456', fullName: 'Иванов Иван', role: 'Студент' },
+                    'teacher@university.ru': { password: '123456', fullName: 'Петрова С.М.', role: 'Преподаватель' },
+                    'admin@university.ru': { password: '123456', fullName: 'Администратор', role: 'Администратор' }
+                };
+
+                // Проверяем тестовых пользователей
+                if (testUsers[email] && testUsers[email].password === password) {
+                    const user = {
+                        email: email,
+                        fullName: testUsers[email].fullName,
+                        role: testUsers[email].role
+                    };
+
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    showMainApp(user);
+                } 
+                // Проверяем зарегистрированных пользователей
+                else {
+                    const registeredUsers = JSON.parse(sessionStorage.getItem('registeredUsers') || '{}');
+                    if (registeredUsers[email] && registeredUsers[email].password === password) {
+                        const user = {
+                            email: email,
+                            fullName: registeredUsers[email].fullName,
+                            role: registeredUsers[email].role
+                        };
+
+                        sessionStorage.setItem('currentUser', JSON.stringify(user));
+                        showMainApp(user);
+                    } else {
+                        alert('Неверный email или пароль');
+                    }
+                }
+            });
+
+            // Обработка формы регистрации
+            welcomeRegisterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const fullName = document.getElementById('welcomeRegFullName').value;
+                const email = document.getElementById('welcomeRegEmail').value;
+                const password = document.getElementById('welcomeRegPassword').value;
+                const confirmPassword = document.getElementById('welcomeRegConfirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    alert('Пароли не совпадают!');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    alert('Пароль должен содержать минимум 6 символов!');
+                    return;
+                }
+
+                // Получаем существующих зарегистрированных пользователей
+                const registeredUsers = JSON.parse(sessionStorage.getItem('registeredUsers') || '{}');
+
+                // Проверяем, не занят ли email
+                if (registeredUsers[email]) {
+                    alert('Пользователь с таким email уже зарегистрирован!');
+                    return;
+                }
+
+                // Добавляем нового пользователя
+                registeredUsers[email] = {
+                    fullName: fullName,
+                    password: password,
+                    role: 'Студент'
+                };
+
+                // Сохраняем в sessionStorage
+                sessionStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+
+                const user = {
+                    email: email,
+                    fullName: fullName,
+                    role: 'Студент'
+                };
+
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                showMainApp(user);
+                alert('Регистрация выполнена успешно!');
+            });
+
+            // Выход из системы
+            logoutBtn.addEventListener('click', function() {
+                sessionStorage.removeItem('currentUser');
+                welcomeModal.style.display = 'flex';
+                mainApp.style.display = 'none';
+            });
+
+            // Функция показа основного приложения
+            function showMainApp(user) {
+                welcomeModal.style.display = 'none';
+                mainApp.style.display = 'block';
+                userWelcome.textContent = `Добро пожаловать, ${user.fullName} (${user.role})`;
+            }
+
+            // Функция для отладки - показать всех пользователей
+            window.showAllUsers = function() {
+                const testUsers = {
+                    'student@university.ru': { password: '123456', fullName: 'Иванов Иван', role: 'Студент' },
+                    'teacher@university.ru': { password: '123456', fullName: 'Петрова С.М.', role: 'Преподаватель' },
+                    'admin@university.ru': { password: '123456', fullName: 'Администратор', role: 'Администратор' }
+                };
+
+                const registeredUsers = JSON.parse(sessionStorage.getItem('registeredUsers') || '{}');
+
+                console.log('Тестовые пользователи:', testUsers);
+                console.log('Зарегистрированные пользователи:', registeredUsers);
+                alert('Посмотрите консоль браузера (F12) для информации о пользователях');
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
